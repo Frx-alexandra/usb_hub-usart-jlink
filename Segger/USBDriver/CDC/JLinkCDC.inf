@@ -1,0 +1,71 @@
+;
+; JLink with integrated CDC driver setup information file
+; Copyright (c) 2011 by SEGGER Microcontroller GmbH & Co. KG
+;   
+; This file supports:
+;     x86: Win2000, Windows XP, Windows Vista, Windows 2003 Server,
+;          Windows 7, Windows 2008 Server
+;     x64: Windows XP, Windows 2003 Server, Windows Vista, Windows 7
+;
+;
+[Version] 
+Signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%MFGNAME%
+LayoutFile=layout.inf
+DriverPackageType=PlugAndPlay
+DriverVer=01/25/2012,6.0.2600.4
+CatalogFile=JLinkCDC.cat
+
+[Manufacturer] 
+%MFGNAME%=CDCDevice,NT,NTamd64
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[CDCDevice.NT]
+%CDC.DESCRIPTION%=CDC.DriverInstall,USB\VID_1366&PID_0105&MI_00
+%CDC.DESCRIPTION%=CDC.DriverInstall,USB\VID_1366&PID_0106
+
+[CDCDevice.NTamd64]
+%CDC.DESCRIPTION%=CDC.DriverInstall,USB\VID_1366&PID_0105&MI_00
+%CDC.DESCRIPTION%=CDC.DriverInstall,USB\VID_1366&PID_0106
+
+[CDC.DriverInstall.NT]
+Include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=CDC.DriverInstall.NT.AddReg
+
+[CDC.DriverInstall.NT.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[CDC.DriverInstall.NT.Services]
+AddService=usbser, 0x00000002, CDC.DriverServiceInst
+
+[CDC.DriverServiceInst]
+DisplayName=%SERVICE%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\usbser.sys 
+
+[SourceDisksNames.amd64]
+1=%DiskName%,,
+
+[SourceDisksFiles.amd64]
+
+[SourceDisksNames.x86]
+1=%DiskName%,,
+
+[SourceDisksFiles.x86]
+
+[Strings]
+MFGNAME = "SEGGER"
+CDC.DESCRIPTION = "JLink CDC UART Port"
+SERVICE = "USB CDC serial port emulation"
+DiskName="J-Link Installation Disk"
+
+; *** EOF ***

@@ -1,0 +1,122 @@
+;
+; JLink driver setup information file
+; Copyright (c) 2012 by SEGGER Microcontroller GmbH & Co. KG
+;
+; This file supports:
+;     x86: Win2000, Windows XP, Windows Vista, Windows 2003 Server,
+;          Windows 7, Windows 2008 Server
+;     x64: Windows XP, Windows 2003 Server, Windows Vista, Windows 7
+;
+[Version]
+Signature="$Windows NT$"
+Provider=%MfgName%
+DriverVer=04/11/2012,2.6.8.2
+DriverPackageType=PlugAndPlay
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+CatalogFile=JLink.cat
+
+
+[Manufacturer]
+%MfgName%=DeviceList,NT,NTamd64
+
+[DeviceList.nt]
+%PID_0101.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0101
+%PID_0102.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0102
+%PID_0103.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0103
+%PID_0104.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0104
+%PID_0105.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0105&MI_02
+
+[DeviceList.ntamd64]
+%PID_0101.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0101
+%PID_0102.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0102
+%PID_0103.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0103
+%PID_0104.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0104
+%PID_0105.DeviceDesc%=JLinkInstall, USB\VID_1366&PID_0105&MI_02
+
+[JLinkInstall.ntx86]
+CopyFiles=JLinkCopyFiles.ntx86
+
+[JLinkInstall.ntamd64]
+CopyFiles=JLinkCopyFiles.ntamd64
+
+[JLinkInstall.ntx86.Services]
+Addservice = jlink, 0x00000002, JLinkAddService.ntx86, JLinkEventLog.ntx86
+
+[JLinkInstall.ntamd64.Services]
+Addservice = jlink, 0x00000002, JLinkAddService.ntamd64, JLinkEventLog.ntamd64
+
+[JLinkAddService.ntx86]
+DisplayName    = %JLink.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\jlink.sys
+
+[JLinkAddService.ntamd64]
+DisplayName    = %JLink.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\jlinkx64.sys
+
+
+[JLinkEventLog.ntx86]
+AddReg=JLinkEventLogAddReg.ntx86
+
+[JLinkEventLog.ntamd64]
+AddReg=JLinkEventLogAddReg.ntamd64
+
+[JLinkEventLogAddReg.ntx86]
+HKR,,EventMessageFile,%REG_EXPAND_SZ%,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\jlink.sys"
+HKR,,TypesSupported,  %REG_DWORD%,7
+
+[JLinkEventLogAddReg.ntamd64]
+HKR,,EventMessageFile,%REG_EXPAND_SZ%,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\jlinkx64.sys"
+HKR,,TypesSupported,  %REG_DWORD%,7
+
+[JLinkCopyFiles.ntx86]
+jlink.sys
+
+[JLinkCopyFiles.ntamd64]
+jlinkx64.sys
+
+[DestinationDirs]
+DefaultDestDir = 12
+JLinkCopyFiles.ntx86 = 12
+JLinkCopyFiles.ntamd64 = 12
+
+
+[SourceDisksNames.x86]
+1=%JLink.DiskName%,,
+
+[SourceDisksFiles.x86]
+jlink.sys = 1
+
+[SourceDisksNames.amd64]
+1=%JLink.DiskName%,,
+
+[SourceDisksFiles.amd64]
+jlinkx64.sys = 1
+
+
+;---------------------------------------------------------------;
+
+[Strings]
+MfgName="Segger"
+PID_0101.DeviceDesc="J-Link driver"
+PID_0102.DeviceDesc="J-Link 1 driver"
+PID_0103.DeviceDesc="J-Link 2 driver"
+PID_0104.DeviceDesc="J-Link 3 driver"
+PID_0105.DeviceDesc="J-Link OB CDC"
+JLink.SvcDesc="J-Link driver"
+JLink.DiskName="J-Link Installation Disk"
+
+; Non-Localizable Strings, DO NOT MODIFY!
+REG_SZ         = 0x00000000
+REG_MULTI_SZ   = 0x00010000
+REG_EXPAND_SZ  = 0x00020000
+REG_BINARY     = 0x00000001
+REG_DWORD      = 0x00010001
+
+; *** EOF ***
